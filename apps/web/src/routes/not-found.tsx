@@ -27,5 +27,3 @@ function RouteComponent() {
     </div>
   )
 }
-
-export default NotFound

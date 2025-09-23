@@ -21,25 +21,28 @@ export function Navbar() {
         <div className="hidden md:flex items-center space-x-8">
           <Link
             to="/"
-            className={({ isActive }) =>
-              `font-medium transition-colors ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`
-            }
+            className="font-medium transition-colors text-foreground hover:text-primary"
+            activeProps={{
+              className: 'text-primary',
+            }}
           >
             Games
           </Link>
           <Link
             to="/"
-            className={({ isActive }) =>
-              `font-medium transition-colors ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`
-            }
+            className="font-medium transition-colors text-foreground hover:text-primary"
+            activeProps={{
+              className: 'text-primary',
+            }}
           >
             Leaderboard
           </Link>
           <Link
             to="/"
-            className={({ isActive }) =>
-              `font-medium transition-colors ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`
-            }
+            className="font-medium transition-colors text-foreground hover:text-primary"
+            activeProps={{
+              className: 'text-primary',
+            }}
           >
             Tournaments
           </Link>
@@ -51,11 +54,11 @@ export function Navbar() {
             <Wallet className="w-4 h-4 mr-2" />
             Connect Wallet
           </Button>
-          <NavLink to="/profile">
+          <Link to="/">
             <Button variant="pixel" size="icon">
               <User className="w-4 h-4" />
             </Button>
-          </NavLink>
+          </Link>
         </div>
       </div>
     </nav>

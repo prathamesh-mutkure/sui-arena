@@ -1,0 +1,63 @@
+import { Link } from '@tanstack/react-router'
+import { GamepadIcon, User, Wallet } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+
+export function Navbar() {
+  return (
+    <nav className="navbar-pixel px-6 py-4 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo/Brand */}
+        <Link to="/" className="flex items-center space-x-3 group">
+          <div className="pixel-avatar w-10 h-10 bg-primary flex items-center justify-center">
+            <GamepadIcon className="w-6 h-6 text-primary-foreground" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-primary">Sui Arena</h1>
+            <p className="text-xs text-muted-foreground">POWERED BY WALRUS</p>
+          </div>
+        </Link>
+
+        {/* Navigation Links */}
+        <div className="hidden md:flex items-center space-x-8">
+          <Link
+            to="/"
+            className={({ isActive }) =>
+              `font-medium transition-colors ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`
+            }
+          >
+            Games
+          </Link>
+          <Link
+            to="/"
+            className={({ isActive }) =>
+              `font-medium transition-colors ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`
+            }
+          >
+            Leaderboard
+          </Link>
+          <Link
+            to="/"
+            className={({ isActive }) =>
+              `font-medium transition-colors ${isActive ? 'text-primary' : 'text-foreground hover:text-primary'}`
+            }
+          >
+            Tournaments
+          </Link>
+        </div>
+
+        {/* Actions */}
+        <div className="flex items-center space-x-4">
+          <Button variant="pixel-outline" size="sm">
+            <Wallet className="w-4 h-4 mr-2" />
+            Connect Wallet
+          </Button>
+          <NavLink to="/profile">
+            <Button variant="pixel" size="icon">
+              <User className="w-4 h-4" />
+            </Button>
+          </NavLink>
+        </div>
+      </div>
+    </nav>
+  )
+}

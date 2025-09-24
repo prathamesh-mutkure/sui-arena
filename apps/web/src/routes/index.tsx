@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Navbar } from '@/components/navbar'
 import { HeroSection } from '@/components/hero-section'
 import { GameSection } from '@/components/game-section'
 import { sampleGames } from '@/lib/games'

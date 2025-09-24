@@ -2,17 +2,6 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { GameCard } from './game-card'
 import { Button } from '@/components/ui/button'
 
-interface Game {
-  id: string
-  title: string
-  category: string
-  players: number
-  highScore: number
-  difficulty: 'Easy' | 'Medium' | 'Hard' | 'Expert'
-  trending?: boolean
-  imageUrl?: string
-}
-
 interface GameSectionProps {
   title: string
   games: Array<Game>
@@ -41,13 +30,14 @@ export function GameSection({ title, games }: GameSectionProps) {
             {games.map((game) => (
               <GameCard
                 key={game.id}
-                title={game.title}
-                category={game.category}
-                players={game.players}
-                highScore={game.highScore}
-                difficulty={game.difficulty}
-                trending={game.trending}
-                imageUrl={game.imageUrl}
+                gameId={game.id}
+                title={game.name}
+                category={game.categories[0]}
+                players={10}
+                highScore={100}
+                difficulty="Medium"
+                trending={false}
+                imageUrl={game.poster}
               />
             ))}
           </div>

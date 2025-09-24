@@ -1,4 +1,5 @@
 import { Star, TrendingUp, Users, Zap } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 
 interface GameCardProps {
@@ -9,6 +10,7 @@ interface GameCardProps {
   difficulty: 'Easy' | 'Medium' | 'Hard' | 'Expert'
   trending?: boolean
   imageUrl?: string
+  gameId: string
 }
 
 export function GameCard({
@@ -19,6 +21,7 @@ export function GameCard({
   difficulty,
   trending = false,
   imageUrl,
+  gameId,
 }: GameCardProps) {
   const getDifficultyColor = (diff: string) => {
     switch (diff) {
@@ -85,9 +88,11 @@ export function GameCard({
           >
             {difficulty}
           </div>
-          <Button variant="pixel" size="sm">
-            Play Now
-          </Button>
+          <Link to="/game/$gameId" params={{ gameId }}>
+            <Button variant="pixel" size="sm">
+              Play Now
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { GamepadIcon, User, Wallet } from 'lucide-react'
+import { ConnectButton } from '@mysten/dapp-kit'
 import { Button } from '@/components/ui/button'
 
 export function Navbar() {
@@ -50,12 +51,15 @@ export function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center space-x-4">
-          <Button variant="pixel-outline" size="sm">
-            <Wallet className="w-4 h-4 mr-2" />
-            Connect Wallet
-          </Button>
-          <Link to="/">
-            <Button variant="pixel" size="icon">
+          <ConnectButton className="cursor-pointer">
+            <Button variant="pixel-outline" size="sm">
+              <Wallet className="w-4 h-4 mr-2" />
+              Connect Wallet
+            </Button>
+          </ConnectButton>
+
+          <Link to="/profile" className="">
+            <Button variant="pixel" size="icon" className="cursor-pointer">
               <User className="w-4 h-4" />
             </Button>
           </Link>

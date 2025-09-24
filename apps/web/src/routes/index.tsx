@@ -32,8 +32,7 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navbar />
+    <div className="">
       <HeroSection />
 
       {categorizedGames.featured.length > 0 && (

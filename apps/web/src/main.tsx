@@ -2,14 +2,12 @@ import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 
-import { SuiClientProvider, WalletProvider } from '@mysten/dapp-kit'
-import { getFullnodeUrl } from '@mysten/sui/client'
-
 import * as TanStackQueryProvider from './integrations/tanstack-query/root-provider.tsx'
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'
 
+import '@mysten/dapp-kit/dist/index.css'
 import './app.css'
 import './styles.css'
 import reportWebVitals from './reportWebVitals.ts'
@@ -34,10 +32,6 @@ declare module '@tanstack/react-router' {
     router: typeof router
   }
 }
-const networks = {
-  devnet: { url: getFullnodeUrl('devnet') },
-  mainnet: { url: getFullnodeUrl('mainnet') },
-}
 
 // Render the app
 const rootElement = document.getElementById('app')
@@ -45,13 +39,7 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
-        <SuiClientProvider networks={networks} defaultNetwork="devnet">
-          <WalletProvider>
-            <RouterProvider router={router} />
-          </WalletProvider>
-        </SuiClientProvider>
-      </TanStackQueryProvider.Provider>
+      <RouterProvider router={router} />
     </StrictMode>,
   )
 }

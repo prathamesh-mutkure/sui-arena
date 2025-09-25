@@ -17,15 +17,14 @@ interface MyRouterContext {
 const TanStackQueryProviderContext = TanStackQueryProvider.getContext()
 
 const networks = {
-  devnet: { url: getFullnodeUrl('devnet') },
-  mainnet: { url: getFullnodeUrl('mainnet') },
+  testnet: { url: getFullnodeUrl('testnet') },
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: () => (
     <>
       <TanStackQueryProvider.Provider {...TanStackQueryProviderContext}>
-        <SuiClientProvider networks={networks} defaultNetwork="devnet">
+        <SuiClientProvider networks={networks} defaultNetwork="testnet">
           <WalletProvider>
             <div className="min-h-screen bg-background">
               <Navbar />

@@ -1,12 +1,35 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { GamepadIcon, User, Wallet } from 'lucide-react'
+import { generateUsername } from 'unique-username-generator'
 import { ConnectModal, useCurrentAccount } from '@mysten/dapp-kit'
 import { Button } from '@/components/ui/button'
+import { usePlatformOperations } from '@/lib/sui-client'
 
 export function Navbar() {
   const currentAccount = useCurrentAccount()
   const [open, setOpen] = useState(false)
+  const { checkUserExists, registerUser } = usePlatformOperations()
+
+  async function checkAndRegisterUser(userAddress: string) {
+    const doesUserExists = await checkUserExists(userAddress)
+
+    if (doesUserExists) {
+      console.log('user already exists')
+      return
+    }
+
+    const username = generateUsername('-')
+    const newUser = registerUser(username)
+  }
+
+  useEffect(() => {
+    if (!currentAccount?.address) {
+      return
+    }
+
+    checkAndRegisterUser(currentAccount.address)
+  }, [currentAccount?.address])
 
   return (
     <>

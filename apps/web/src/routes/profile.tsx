@@ -1,12 +1,20 @@
+import { useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { useCurrentAccount } from '@mysten/dapp-kit'
 import { Award, Calendar, Gamepad2, Star, Target, Trophy } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { type UserProfile, usePlatformOperations } from '@/lib/sui-client'
+import { generateUsername } from 'unique-username-generator'
 
 export const Route = createFileRoute('/profile')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const currentAccount = useCurrentAccount()
+  const { getUserProfile } = usePlatformOperations()
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null)
+
   const achievements = [
     {
       id: 1,
@@ -51,6 +59,21 @@ function RouteComponent() {
     }
   }
 
+  async function _getUserProfile(userAddress: string) {
+    const user = await getUserProfile(userAddress)
+    setUserProfile(user)
+
+    console.log(user)
+  }
+
+  useEffect(() => {
+    if (!currentAccount?.address) {
+      return
+    }
+
+    _getUserProfile(currentAccount.address)
+  }, [currentAccount?.address])
+
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-6 py-12">
@@ -65,7 +88,7 @@ function RouteComponent() {
             {/* Profile Info */}
             <div className="flex-1 text-center md:text-left">
               <h1 className="text-4xl font-bold text-foreground mb-2">
-                GamerPro2024
+                {userProfile ? generateUsername() : '-'}
               </h1>
               <p className="text-muted-foreground mb-4">
                 Elite Arcade Champion
@@ -75,7 +98,7 @@ function RouteComponent() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="pixel-card p-4 bg-primary/10 border-primary">
                   <div className="text-2xl font-bold text-primary mb-1">
-                    15,420
+                    {userProfile?.total_score ?? '-'}
                   </div>
                   <div className="text-xs text-muted-foreground">
                     Total Score
@@ -83,7 +106,7 @@ function RouteComponent() {
                 </div>
                 <div className="pixel-card p-4 bg-secondary/10 border-secondary">
                   <div className="text-2xl font-bold text-secondary mb-1">
-                    127
+                    {userProfile?.games_played ?? '-'}
                   </div>
                   <div className="text-xs text-muted-foreground">
                     Games Played
@@ -91,16 +114,18 @@ function RouteComponent() {
                 </div>
                 <div className="pixel-card p-4 bg-success/10 border-success">
                   <div className="text-2xl font-bold text-success mb-1">
-                    89%
+                    {userProfile?.games_uploaded ?? '-'}
                   </div>
-                  <div className="text-xs text-muted-foreground">Win Rate</div>
+                  <div className="text-xs text-muted-foreground">
+                    Games Uploaded
+                  </div>
                 </div>
                 <div className="pixel-card p-4 bg-warning/10 border-warning">
                   <div className="text-2xl font-bold text-warning mb-1">
-                    #12
+                    {userProfile?.reputation_score ?? '-'}
                   </div>
                   <div className="text-xs text-muted-foreground">
-                    Global Rank
+                    Reputation Score
                   </div>
                 </div>
               </div>

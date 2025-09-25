@@ -39,7 +39,7 @@ export function GameCard({
   }
 
   return (
-    <div className="pixel-card-game p-6 bg-card min-w-[300px] relative group max-w-full">
+    <div className="pixel-card-game p-6 bg-card min-w-[300px] relative group max-w-[95vw]">
       {trending && (
         <div className="absolute top-4 right-4 flex items-center space-x-1 badge-legendary">
           <TrendingUp className="w-3 h-3" />

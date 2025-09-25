@@ -73,13 +73,13 @@ export function Navbar() {
               Leaderboard
             </Link>
             <Link
-              to="/"
+              to="/game/new"
               className="font-medium transition-colors text-foreground hover:text-primary"
               activeProps={{
                 className: 'text-primary',
               }}
             >
-              Tournaments
+              New Game
             </Link>
           </div>
 

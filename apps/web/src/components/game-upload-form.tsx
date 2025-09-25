@@ -1,82 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useCurrentAccount } from '@mysten/dapp-kit'
-
+import { Button } from './ui/button'
 import {
   GAME_CATEGORIES,
+  type GameUploadData,
   getWalrusUrl,
   usePlatformOperations,
-  type GameUploadData,
 } from '@/lib/sui-client'
-
-// User Registration Component
-export const UserRegistration: React.FC<{
-  onRegistered: () => void
-}> = ({ onRegistered }) => {
-  const [username, setUsername] = useState('')
-  const [isRegistering, setIsRegistering] = useState(false)
-  const [isRegistered, setIsRegistered] = useState(false)
-  const currentAccount = useCurrentAccount()
-  const { registerUser, checkUserExists } = usePlatformOperations()
-
-  useEffect(() => {
-    if (currentAccount) {
-      checkUserExists().then(setIsRegistered)
-    }
-  }, [currentAccount])
-
-  const handleRegister = async () => {
-    if (!username.trim()) {
-      alert('Please enter a username')
-      return
-    }
-
-    setIsRegistering(true)
-
-    try {
-      await registerUser(username)
-      setIsRegistered(true)
-      onRegistered()
-      alert('Registration successful!')
-    } catch (error) {
-      console.error('Registration failed:', error)
-      alert('Registration failed. Please try again.')
-    } finally {
-      setIsRegistering(false)
-    }
-  }
-
-  if (!currentAccount) {
-    return (
-      <div>
-        <p>Please connect wallet to continue</p>
-      </div>
-    )
-  }
-
-  if (isRegistered) {
-    return (
-      <div className="user-registered">
-        <p>✅ User profile already exists</p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="user-registration">
-      <h3>Create Gaming Profile</h3>
-      <input
-        type="text"
-        placeholder="Enter username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        maxLength={50}
-      />
-      <button onClick={handleRegister} disabled={isRegistering}>
-        {isRegistering ? 'Creating Profile...' : 'Create Profile'}
-      </button>
-    </div>
-  )
-}
 
 // Game Upload Component
 export const GameUploadForm: React.FC = () => {
@@ -135,14 +65,18 @@ export const GameUploadForm: React.FC = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="game-upload-form">
-      <h3>Upload New Game</h3>
+    <form
+      onSubmit={handleSubmit}
+      className="flex flex-col max-w-[500px] mx-auto gap-3 my-10"
+    >
+      <h3 className="text-3xl">New Game</h3>
 
       <input
         type="text"
         placeholder="Game Name *"
         value={gameData.name || ''}
         onChange={(e) => setGameData({ ...gameData, name: e.target.value })}
+        className="border rounded py-1 px-2"
         required
       />
 
@@ -153,9 +87,10 @@ export const GameUploadForm: React.FC = () => {
           setGameData({ ...gameData, description: e.target.value })
         }
         rows={3}
+        className="border rounded py-1 px-2"
       />
 
-      <div>
+      <div className="my-2">
         <label>Game Poster Image *</label>
         <input
           type="file"
@@ -163,38 +98,50 @@ export const GameUploadForm: React.FC = () => {
           onChange={(e) =>
             setGameData({ ...gameData, gameUrl: e.target.value })
           }
+          placeholder="Poster Image"
           required
+          className="border rounded py-1 px-2 w-full"
         />
       </div>
 
-      <div>
-        <label>Categories:</label>
-        {Object.entries(GAME_CATEGORIES).map(([name, id]) => (
-          <label key={id}>
-            <input
-              type="checkbox"
-              checked={(gameData.categories || []).includes(id)}
-              onChange={() => toggleCategory(id)}
-            />
-            {name.charAt(0) + name.slice(1).toLowerCase()}
-          </label>
-        ))}
+      <div className="my-2">
+        <label className="font-medium">Categories:</label>
+        <br />
+        <div className="flex flex-row flex-wrap gap-4">
+          {Object.entries(GAME_CATEGORIES).map(([name, id]) => (
+            <label key={id}>
+              <input
+                type="checkbox"
+                checked={(gameData.categories || []).includes(id)}
+                onChange={() => toggleCategory(id)}
+                className="mr-2"
+              />
+              {name.charAt(0) + name.slice(1).toLowerCase()}
+            </label>
+          ))}
+        </div>
       </div>
 
-      <label>
+      <label className="my-2">
         <input
           type="checkbox"
           checked={gameData.isMobileFriendly || false}
           onChange={(e) =>
             setGameData({ ...gameData, isMobileFriendly: e.target.checked })
           }
+          className="mr-2"
         />
         Mobile Friendly
       </label>
 
-      <button type="submit" disabled={isUploading || !currentAccount}>
+      <Button
+        type="submit"
+        disabled={isUploading || !currentAccount}
+        variant="pixel-outline"
+        className="border border-indigo-300 mt-4"
+      >
         {isUploading ? 'Uploading...' : 'Upload Game'}
-      </button>
+      </Button>
     </form>
   )
 }

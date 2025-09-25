@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as NotFoundRouteImport } from './routes/not-found'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GameNewRouteImport } from './routes/game.new'
 import { Route as GameGameIdRouteImport } from './routes/game.$gameId'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 
@@ -28,6 +29,11 @@ const NotFoundRoute = NotFoundRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GameNewRoute = GameNewRouteImport.update({
+  id: '/game/new',
+  path: '/game/new',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GameGameIdRoute = GameGameIdRouteImport.update({
@@ -47,6 +53,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/game/$gameId': typeof GameGameIdRoute
+  '/game/new': typeof GameNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +61,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/game/$gameId': typeof GameGameIdRoute
+  '/game/new': typeof GameNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +70,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/game/$gameId': typeof GameGameIdRoute
+  '/game/new': typeof GameNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,8 +80,15 @@ export interface FileRouteTypes {
     | '/profile'
     | '/demo/tanstack-query'
     | '/game/$gameId'
+    | '/game/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/not-found' | '/profile' | '/demo/tanstack-query' | '/game/$gameId'
+  to:
+    | '/'
+    | '/not-found'
+    | '/profile'
+    | '/demo/tanstack-query'
+    | '/game/$gameId'
+    | '/game/new'
   id:
     | '__root__'
     | '/'
@@ -80,6 +96,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/demo/tanstack-query'
     | '/game/$gameId'
+    | '/game/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -88,6 +105,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   GameGameIdRoute: typeof GameGameIdRoute
+  GameNewRoute: typeof GameNewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -113,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/game/new': {
+      id: '/game/new'
+      path: '/game/new'
+      fullPath: '/game/new'
+      preLoaderRoute: typeof GameNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/game/$gameId': {
       id: '/game/$gameId'
       path: '/game/$gameId'
@@ -136,6 +161,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   GameGameIdRoute: GameGameIdRoute,
+  GameNewRoute: GameNewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

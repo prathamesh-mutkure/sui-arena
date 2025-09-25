@@ -1,5 +1,3 @@
-// Gaming Platform Integration with @mysten/dapp-kit
-
 import {
   useCurrentAccount,
   useSignAndExecuteTransaction,
@@ -271,10 +269,10 @@ export function usePlatformOperations() {
       signAndExecute(
         {
           transaction: tx,
-          options: {
-            showEvents: true,
-            showObjectChanges: true,
-          },
+          // options: {
+          //   showEvents: true,
+          //   showObjectChanges: true,
+          // },
         },
         {
           onSuccess: () => resolve(),
@@ -365,9 +363,9 @@ export function usePlatformOperations() {
     const returnValues = result.results?.[0]?.returnValues
     if (returnValues) {
       return {
-        totalGames: parseInt(returnValues[0][0]) || 0,
-        totalUsers: parseInt(returnValues[1][0]) || 0,
-        uploadFee: returnValues[2][0] || '0',
+        totalGames: returnValues[0][0][0] || 0,
+        totalUsers: returnValues[1][0][0] || 0,
+        uploadFee: returnValues[2][0][0] || 0,
       }
     }
 
@@ -384,3 +382,44 @@ export function usePlatformOperations() {
     getPlatformStats,
   }
 }
+
+export function getWalrusUrl(blobId: string): string {
+  return `${WALRUS_AGGREGATOR_URL}/v1/${blobId}`
+}
+
+export function validateGameFile(file: File, gameType: number): boolean {
+  if (gameType === 0) {
+    // SWF file
+    return (
+      file.type === 'application/x-shockwave-flash' ||
+      file.name.endsWith('.swf')
+    )
+  }
+  return true
+}
+
+export const GAME_CATEGORIES = {
+  FEATURED: 0,
+  ACTION: 1,
+  ADVENTURE: 2,
+  ARCADE: 3,
+  PUZZLE: 4,
+  STRATEGY: 5,
+  SPORTS: 6,
+  RACING: 7,
+  SIMULATION: 8,
+  CASINO: 9,
+  OTHER: 10,
+} as const
+
+export const GAME_TYPES = {
+  SWF: 0,
+  URL: 1,
+} as const
+
+export const ACHIEVEMENT_RARITIES = {
+  COMMON: 0,
+  RARE: 1,
+  EPIC: 2,
+  LEGENDARY: 3,
+} as const

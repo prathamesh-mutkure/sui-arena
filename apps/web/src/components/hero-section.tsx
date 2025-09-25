@@ -8,7 +8,8 @@ export function HeroSection() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
             Welcome to
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white to-primary-light">
+            {/* <span className="block text-transparent bg-clip-text bg-gradient-to-r from-white to-primary-light"> */}
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r text-white">
               Sui Arena
             </span>
           </h1>
